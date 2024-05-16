@@ -1,0 +1,16 @@
+services:
+  server:
+    image: currency-exchange-server
+    container_name: 'currency-exchange-server'
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./server:/app
+    develop:
+      watch:
+        - action: sync
+          path: ./server
+          target: /app
+        - action: rebuild
+          path: ./server/package.json
+          target: /app/package.json
