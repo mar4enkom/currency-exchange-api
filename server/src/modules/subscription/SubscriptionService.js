@@ -2,22 +2,25 @@ const mongoose = require('mongoose');
 const User = require('../user/dataAccess/User');
 const {mailer} = require("../../mailer/Mailer");
 const {rateService} = require("../rate/RateService");
+const {sendEmailQueue} = require("../../jobs/sendEmail/queues");
+const {sendEmailJobProps, SEND_EMAIL_QUEUE_ID} = require("../../jobs/sendEmail/constants");
 
 class SubscriptionService {
-    async notifyAll() {
+    async setupNotificationJobs() {
         const users = await User.find({}, 'email');
         const currentRate = await rateService.getUsdToUahRate();
 
         for (const user of users) {
             try {
-                const res = await mailer.sendEmail({
-                    to: user.email,
+                const data = {
+                    email: user.email,
                     subject: "Rate updates",
                     text: `Current USD - UAH rate is ${currentRate}`,
-                })
-                console.log(res);
+                }
+                const jobOptions = {...sendEmailJobProps, jobId: user.email };
+                await sendEmailQueue.add(SEND_EMAIL_QUEUE_ID, data, jobOptions);
             } catch(e) {
-                console.log("Err", e);
+                throw e;
             }
         }
     }
