@@ -7,6 +7,7 @@ module.exports = {
     },
     handleUnhandledRejection: async (reason) => {
         console.error("Unhandled rejection");
+        console.log(reason);
         process.exit(0);
     }
 } ;

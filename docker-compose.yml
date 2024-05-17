@@ -14,3 +14,20 @@ services:
         - action: rebuild
           path: ./server/package.json
           target: /app/package.json
+        - action: rebuild
+          path: ./server/.env
+          target: /app/.env
+
+  mongo-db:
+    image: mongo:latest
+    container_name: 'mongo-db'
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: qweasdzxc0987
+      MONGO_INITDB_DATABASE: currency-exchange
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./mongodb/_volume/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
+      - ./mongodb:/data/db
