@@ -31,8 +31,23 @@ services:
     volumes:
       - ./mongodb/_volume/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
       - ./mongodb:/data/db
+
   redis:
     image: redis:latest
     container_name: 'redis'
     ports:
       - "6379:6379"
+
+  bullboard:
+    container_name: bullboard
+    image: deadly0/bull-board
+    restart: always
+    ports:
+      - 3000:3000
+    environment:
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_USE_TLS: 'false'
+      BULL_PREFIX: bull
+    depends_on:
+      - redis

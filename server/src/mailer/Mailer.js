@@ -1,5 +1,3 @@
-const nodemailer = require("nodemailer");
-
 class Mailer {
     constructor() {
         // In this version, EmailJS permits only dynamic imports,
