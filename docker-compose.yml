@@ -9,6 +9,8 @@ services:
     depends_on:
       - redis
       - mongo-db
+    environment:
+      - TZ=Europe/Kyiv
     develop:
       watch:
         - action: sync
