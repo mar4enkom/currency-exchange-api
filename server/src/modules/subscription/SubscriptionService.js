@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const User = require('../user/dataAccess/User');
 const {mailer} = require("../../mailer/Mailer");
-const {config} = require("../../config");
 const {rateService} = require("../rate/RateService");
 
 class SubscriptionService {
@@ -13,8 +12,8 @@ class SubscriptionService {
             try {
                 const res = await mailer.sendEmail({
                     to: user.email,
-                    subject: config.subscriptionService.subject,
-                    text: config.subscriptionService.text(currentRate),
+                    subject: "Rate updates",
+                    text: `Current USD - UAH rate is ${currentRate}`,
                 })
                 console.log(res);
             } catch(e) {
