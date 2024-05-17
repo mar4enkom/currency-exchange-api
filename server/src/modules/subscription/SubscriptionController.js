@@ -1,6 +1,6 @@
 const { z } = require("zod");
 const mongoose = require('mongoose');
-const User = require('../../models/User');
+const User = require('../user/dataAccess/User');
 
 const emailSchema = z.string().email();
 

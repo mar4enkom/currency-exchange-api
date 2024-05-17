@@ -6,6 +6,9 @@ services:
       - "8000:8000"
     volumes:
       - ./server:/app
+    depends_on:
+      - redis
+      - mongo-db
     develop:
       watch:
         - action: sync
@@ -14,9 +17,6 @@ services:
         - action: rebuild
           path: ./server/package.json
           target: /app/package.json
-        - action: rebuild
-          path: ./server/.env
-          target: /app/.env
 
   mongo-db:
     image: mongo:latest
@@ -31,3 +31,8 @@ services:
     volumes:
       - ./mongodb/_volume/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
       - ./mongodb:/data/db
+  redis:
+    image: redis:latest
+    container_name: 'redis'
+    ports:
+      - "6379:6379"

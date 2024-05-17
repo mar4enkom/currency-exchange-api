@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 const {basicMiddlewareList, errorMiddlewareList} = require("./middleware");
 const {handleUncaughtException, handleUnhandledRejection} = require("./shared/utils/processHandlers");
 const appRoutes = require("./routes/appRoutes");
+const {config} = require("./config");
+const {connectMongoDB} = require("./shared/utils/connectMongoDB");
 
 require('dotenv').config();
 const app = express();
@@ -12,7 +14,7 @@ app.use(...basicMiddlewareList);
 app.use(appRoutes);
 app.use(...errorMiddlewareList);
 
-connect();
+connectMongoDB();
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
@@ -21,14 +23,3 @@ app.listen(PORT, () => {
 process.on("uncaughtException", handleUncaughtException);
 process.on("unhandledRejection", handleUnhandledRejection);
 
-function connect() {
-    mongoose.connection
-        .on('error', console.log)
-        .on('disconnected', connect)
-        .once('open', listen);
-    return mongoose.connect(process.env.MONGODB_URI, {
-        keepAlive: 1,
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-    });
-}
