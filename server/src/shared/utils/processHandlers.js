@@ -3,6 +3,7 @@
 module.exports = {
     handleUncaughtException: async (error) => {
         console.error("Uncaught exception");
+        console.log(error);
         process.exit(0);
     },
     handleUnhandledRejection: async (reason) => {

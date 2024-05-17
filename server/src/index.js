@@ -5,6 +5,8 @@ const {handleUncaughtException, handleUnhandledRejection} = require("./shared/ut
 const appRoutes = require("./routes/appRoutes");
 const {config} = require("./config");
 const {connectMongoDB} = require("./shared/utils/connectMongoDB");
+const {subscriptionService} = require("./modules/subscription/SubscriptionService");
+const {mailer} = require("./mailer/Mailer");
 
 require('dotenv').config();
 const app = express();
