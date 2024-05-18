@@ -3,7 +3,7 @@ const User = require('../user/dataAccess/User');
 const {mailer} = require("../../mailer/Mailer");
 const {rateService} = require("../rate/RateService");
 const {sendEmailQueue} = require("../../jobs/sendEmail/queues");
-const {sendEmailJobProps, SEND_EMAIL_QUEUE_ID} = require("../../jobs/sendEmail/constants");
+const {sendEmailCommonOptions, SEND_EMAIL_QUEUE_ID} = require("../../jobs/sendEmail/constants");
 
 class SubscriptionService {
     async setupNotificationJobs() {
@@ -17,7 +17,7 @@ class SubscriptionService {
                     subject: "Rate updates",
                     text: `Current USD - UAH rate is ${currentRate}`,
                 }
-                const jobOptions = {...sendEmailJobProps, jobId: user.email };
+                const jobOptions = {...sendEmailCommonOptions, jobId: user.email };
                 await sendEmailQueue.add(SEND_EMAIL_QUEUE_ID, data, jobOptions);
             } catch(e) {
                 throw e;

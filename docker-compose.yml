@@ -4,6 +4,11 @@ services:
     container_name: 'currency-exchange-server'
     ports:
       - "8000:8000"
+    build:
+      context: ./server
+      args:
+        NODE_ENV: development
+      target: development
     volumes:
       - ./server:/app
     depends_on:
@@ -14,10 +19,10 @@ services:
     develop:
       watch:
         - action: sync
-          path: ./server
+          path: ./
           target: /app
         - action: rebuild
-          path: ./server/package.json
+          path: ./package.json
           target: /app/package.json
 
   mongo-db:

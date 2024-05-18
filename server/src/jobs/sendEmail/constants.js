@@ -1,13 +1,13 @@
-const {rateNotificationsCronPattern} = require("nodemon/lib/config");
+const {config} = require("../../config/config");
 
 const SEND_EMAIL_QUEUE_ID = "sendEmail";
-const sendEmailJobProps = {
+const sendEmailCommonOptions = {
     repeat: {
-        pattern: rateNotificationsCronPattern,
+        pattern: config.rateNotificationsCronPattern,
     }
 }
 
 module.exports = {
     SEND_EMAIL_QUEUE_ID,
-    sendEmailJobProps
+    sendEmailCommonOptions
 }
