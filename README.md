@@ -45,6 +45,8 @@ MAILER_PASSWORD=your password
 
 REDIS_HOST=redis
 REDIS_PORT=6379
+
+PRIVAT_BANK_API=https://api.privatbank.ua/p24api/pubinfo
 ```
 3. Build and start the services:
 ```bash 
