@@ -1,9 +1,13 @@
 const mongoose = require('mongoose');
+const {v4} = require("uuid");
 const User = require('../user/dataAccess/User');
 const {mailer} = require("../../mailer/Mailer");
 const {rateService} = require("../rate/RateService");
-const {sendEmailQueue} = require("../../jobs/sendEmail/queues");
-const {sendEmailCommonOptions, SEND_EMAIL_QUEUE_ID} = require("../../jobs/sendEmail/constants");
+const {SEND_EMAIL_QUEUE_ID} = require("../../jobs/sendEmail/constants");
+const {Queue} = require("bullmq");
+const {config} = require("../../config/config");
+
+const sendEmailQueue = new Queue(SEND_EMAIL_QUEUE_ID, config.redisConnection);
 
 class SubscriptionService {
     async setupNotificationJobs() {
@@ -17,8 +21,7 @@ class SubscriptionService {
                     subject: "Rate updates",
                     text: `Current USD - UAH rate is ${currentRate}`,
                 }
-                const jobOptions = {...sendEmailCommonOptions, jobId: user.email };
-                await sendEmailQueue.add(SEND_EMAIL_QUEUE_ID, data, jobOptions);
+                await sendEmailQueue.add(SEND_EMAIL_QUEUE_ID, data, { jobId: user.email });
             } catch(e) {
                 throw e;
             }
