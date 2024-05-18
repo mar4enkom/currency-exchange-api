@@ -1,5 +1,5 @@
 module.exports.config = {
-    rateNotificationsCronPattern: '0 0 * * *',
+    rateNotificationsCronPattern: '37 11 * * *',
     redisConnection: {
         connection: {
             host: "redis",

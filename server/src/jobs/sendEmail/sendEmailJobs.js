@@ -18,7 +18,6 @@ const sendEmailWorker = new Worker(SEND_EMAIL_QUEUE_ID, async job => {
 
 const sendEmailCreatorWorker = new Worker(SEND_EMAIL_CREATOR_QUEUE_ID, async job => {
     if(job.data) {
-        console.log("ok")
         await subscriptionService.setupNotificationJobs()
     }
 }, config.redisConnection);

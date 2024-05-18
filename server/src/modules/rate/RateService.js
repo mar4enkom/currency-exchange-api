@@ -3,7 +3,7 @@ const {get} = require("axios");
 class RateService {
     async getUsdToUahRate() {
         try {
-            const response = await get("https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5");
+            const response = await get(`${process.env.PRIVAT_BANK_API}?json&exchange&coursid=5`);
             const usdToUahRate = response.data?.find(rate => rate.ccy === "USD")?.buy;
             const result = parseFloat(usdToUahRate);
 
