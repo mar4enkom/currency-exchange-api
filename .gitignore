@@ -1,3 +1,4 @@
 /mongodb/*
+!/mongodb/_volume/
 /.DS_Store
 /.idea/*
